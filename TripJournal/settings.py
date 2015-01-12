@@ -115,13 +115,32 @@ IMG_STORAGE = os.path.join(os.path.dirname(BASE_DIR), 'Pictures')
 # place to temporary write image
 TEMP_DIR = '/var/tmp'
 
+# create manifest file that helps to work offline with editor
+OFFLINE_MANIFEST = 'webapp.manifest'
+
+# set resourses that will be loaded offline
+OFFLINE_MANIFEST = {
+    'webapp.manifest': {
+        'cache': (
+            r'edit\.html',
+            r'edit\.css',
+            #r'main\.js',
+            r'edit\.js',
+            #r'webapp/img/.*',
+        ),
+        'exclude': (
+            #r'webapp/img/online-only/.*',
+        )
+    },
+}
+
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.google.GoogleOAuth2',
     'social.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
+"""
 CLIENT_SECRETS_DIR = os.path.join(BASE_DIR, 'TripJournal', 'client_secrets')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY, SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = (
@@ -133,5 +152,5 @@ SOCIAL_AUTH_FACEBOOK_KEY, SOCIAL_AUTH_FACEBOOK_SECRET = (
 SOCIAL_AUTH_VK_OAUTH2_KEY, SOCIAL_AUTH_VK_OAUTH2_SECRET = (
     client_key_and_secret(CLIENT_SECRETS_DIR, 'vk')
 )
-
+"""
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
