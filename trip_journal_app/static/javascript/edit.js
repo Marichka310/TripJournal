@@ -6,10 +6,13 @@ var number = 1,
     BlockMarkers = [],
     Images = [],
     typeOfMarker = 0, // simple marker, 1 - custom marker
-    editBlockStatus = 0;
+    editBlockStatus = 0,
+    // to show how many times functions execute
+    number_save_text_story_executes = 0,
+    number_save_artifact_story_executes = 0;
 
 function deleteImagesFromBlock(blockNumber) {
-    for (var i=0; i < Images.length; i++) {
+    for (var i = 0; i < Images.length; i++) {
         if (Images[i].block === blockNumber) {
             Images.splice(i, 1);
         }
@@ -17,11 +20,10 @@ function deleteImagesFromBlock(blockNumber) {
 }
 
 function swapImagesFromBlock(blockNumber1, blockNumber2) {
-    for (var i=0; i<Images.length; i++) {
+    for (var i = 0; i < Images.length; i++) {
         if (Images[i].block === blockNumber1) {
             Images[i].block = blockNumber2;
-        }
-        else if (Images[i].block === blockNumber2) {
+        } else if (Images[i].block === blockNumber2) {
             Images[i].block = blockNumber1;
         }
     }
@@ -29,7 +31,7 @@ function swapImagesFromBlock(blockNumber1, blockNumber2) {
 
 function addImagesFromTemp() {
     var i;
-    for(i=0; i < Images.length; i++) {
+    for (i = 0; i < Images.length; i++) {
         if (Images[i].state === 'temp') {
             Images[i].state = 'loaded';
             Images[i].block = number;
@@ -39,7 +41,10 @@ function addImagesFromTemp() {
 
 function appendBlockMarker(marker) {
     if (marker.hasOwnProperty('lat') > 0) {
-        temp_positions.push({'block' : current_marker, 'position' : marker});
+        temp_positions.push({
+            'block': current_marker,
+            'position': marker
+        });
     }
 }
 
@@ -90,10 +95,10 @@ function appendBlock(story, blockContent, block_type, saved) {
     Blocks.push(number);
     BlockMarkers.push(null);
     BlockTypes.push(block_type);
-	if (block_type == 'img') {
+    if (block_type == 'img') {
         addImagesFromTemp(number);
     }
-    
+
     current_marker = Blocks.length - 1;
     number++;
     if (!saved) {
@@ -111,7 +116,8 @@ function appendBlockArtifact(story, blockContent, block_type, saved, itemstr) {
             ['addmarkerArtifact', 'setactivemarkerArtifact'],
             ['removemarker', 'removeBlockMark']
         ];
-function create_button(button_name_and_func) {
+
+    function create_button(button_name_and_func) {
         var button_name = button_name_and_func[0],
             button_func = button_name_and_func[1],
             button = document.createElement('button');
@@ -147,7 +153,7 @@ function create_button(button_name_and_func) {
     Blocks.push(number);
     BlockMarkers.push(null);
     BlockTypes.push(block_type);
-	if (block_type === 'img') {
+    if (block_type === 'img') {
         addImagesFromTemp(number);
     }
 
@@ -164,7 +170,7 @@ function deleteBlock(itemstr) {
         block = document.getElementById("block_" + Blocks[poss]);
     block.parentNode.removeChild(block);
     Blocks.splice(poss, 1);
-    if(BlockMarkers[poss] !== null){
+    if (BlockMarkers[poss] !== null) {
         removeMark(BlockMarkers[poss]);
     }
     BlockMarkers.splice(poss, 1);
@@ -191,7 +197,7 @@ function editBlock(itemstr) {
             keybar.style.display = 'none';
             block.appendChild(textarea);
             textarea.focus();
-            textarea.onkeypress = function (e) {
+            textarea.onkeypress = function(e) {
                 if (e.keyCode === 13) {
                     document.getElementsByClassName('description_story')[poss].innerHTML = textarea.value;
                     block.removeChild(textarea);
@@ -214,7 +220,7 @@ function move_block(itemstr, direction) {
     if ((poss + direction) in Blocks) {
         var blockprev = document.getElementById('contentarea_' + (Blocks[poss + direction])),
             prevconen = blockprev.innerHTML,
-	    block_marker = BlockMarkers[poss],
+            block_marker = BlockMarkers[poss],
             block_type = BlockTypes[poss];
         blockprev.innerHTML = block.innerHTML;
         block.innerHTML = prevconen;
@@ -270,7 +276,7 @@ function add_saved_blocks() {
         blocks = document.getElementsByClassName('saved'),
         blocks_num = blocks.length,
         story_content = document.getElementById('story_content');
-    for (i=0; i < blocks_num; i++) {
+    for (i = 0; i < blocks_num; i++) {
         marker = {};
         block = blocks[0];
         block_type = block.classList[1];
@@ -281,24 +287,23 @@ function add_saved_blocks() {
                 block.children[0].innerHTML,
                 block.dataset.dbid
             );
-        }
-        else if (block_type === 'artifact') {
+        } else if (block_type === 'artifact') {
             block_text = text_block_template(block.children[0].innerHTML);
         }
         block.parentNode.removeChild(block);
         if (block_type === 'text' || block_type === 'img') {
             appendBlock(story_content, block_text, block_type, saved = true);
-        }else if (block_type === 'artifact') {
+        } else if (block_type === 'artifact') {
             appendBlockArtifact(story_content, block_text, block_type, saved = true);
         }
         if (block.dataset.hasOwnProperty('lat')) {
-	        marker = {
+            marker = {
                 'lat': block.dataset.lat,
                 'lng': block.dataset.lng
             };
         }
 
-	appendBlockMarker(marker);
+        appendBlockMarker(marker);
     }
 }
 
@@ -325,8 +330,8 @@ window.onload = function() {
         artifact_panel = document.getElementById('artifact_panel'),
 
         fileSelect = document.getElementById('type_file');
-        form = document.getElementById('file-form'),
-        upload=document.getElementById('publish'),
+    form = document.getElementById('file-form'),
+        upload = document.getElementById('publish'),
         uploadButton = document.getElementById('upload-button'),
         filesget = fileSelect.files,
         formData = new FormData(),
@@ -335,17 +340,17 @@ window.onload = function() {
 
 
     function clearImagesFromTemp() {
-	    var poss = 0;
-	    while (true) {
-	        if (poss == Images.length) {
-		    break;
-	        }
-	        if (Images[poss].state === 'temp') {
-		        Images.splice(poss, 1);
-		        continue;
-	        }
-	    poss++;
-	    }
+        var poss = 0;
+        while (true) {
+            if (poss == Images.length) {
+                break;
+            }
+            if (Images[poss].state === 'temp') {
+                Images.splice(poss, 1);
+                continue;
+            }
+            poss++;
+        }
     }
 
     function clear() {
@@ -372,24 +377,37 @@ window.onload = function() {
     }
 
     function save_text_story() {
+        if (!supportsLocalStorage()) {
+            return false;
+        }
         typeOfMarker = 0;
+        number_save_text_story_executes++;
         story_cont.style.display = 'block';
         var text = escape_html_tags(textarea.value),
             content = text_block_template(text);
+        // console.log(text, number_save_text_story_executes);
+        localStorage["tripJournal.text." + number_save_text_story_executes] = text;
         appendBlock(story_cont, content, "text");
         clear();
+        return true;
     }
 
     function save_artifact_story() {
+        if (!supportsLocalStorage()) {
+            return false;
+        }
         typeOfMarker = 1;
+        number_save_artifact_story_executes++;
         story_cont.style.display = 'block';
         var text = escape_html_tags(textarea_artifact.value),
             content = text_block_template(text);
+        localStorage["tripJournal.artifact." + number_save_artifact_story_executes] = text;
         appendBlockArtifact(story_cont, content, "artifact");
         clear();
+        return true;
     }
 
-        textarea_artifact.onkeypress = function(e) {
+    textarea_artifact.onkeypress = function(e) {
         if (e.keyCode === 13) {
             save_artifact_story();
             return false;
@@ -397,15 +415,20 @@ window.onload = function() {
     };
 
     function save_photo_story() {
+        if (!supportsLocalStorage()) {
+            return false;
+        }
         var i,
             arr = document.getElementsByClassName(number),
             content = '';
         story_cont.style.display = 'block';
         for (i = 0; i < arr.length; i++) {
+            localStorage["tripJournal.image." + i] = arr[i].src;
             content += img_block_template(arr[i].src);
         }
         appendBlock(story_cont, content, "img");
         clear();
+        return true;
     }
 
     function add_img() {
@@ -417,20 +440,24 @@ window.onload = function() {
                 if (!file.type.match('image.*')) {
                     continue;
                 }
-                imageData = {image : file, state : 'temp', block : -1};
+                imageData = {
+                    image: file,
+                    state: 'temp',
+                    block: -1
+                };
                 Images.push(imageData);
                 URL = window.URL;
                 if (URL) {
                     imageUrl = URL.createObjectURL(files[i]);
                     id = 'story_' + number + '_' + files[i].name.substr(0, files[i].name.indexOf('.'));
                     document.getElementById('photo_cont').innerHTML +=
-                    '<div id="' + id + '" class="img_block">' +
-                    '<img src="' + imageUrl + '" class="img_story ' + number + '">' +
-                    '<button onclick="delete_img(\'' + id + '\')" id="' + id + '_d" class="button_3">x</button>' +
-                    '</div>';
+                        '<div id="' + id + '" class="img_block">' +
+                        '<img src="' + imageUrl + '" class="img_story ' + number + '">' +
+                        '<button onclick="delete_img(\'' + id + '\')" id="' + id + '_d" class="button_3">x</button>' +
+                        '</div>';
                 }
             }
-        document.getElementById('photo_cont').style.display = 'inline-block';
+            document.getElementById('photo_cont').style.display = 'inline-block';
         }
     }
 
@@ -443,7 +470,7 @@ window.onload = function() {
         }
     };
 
-	form.onsubmit = function(event) {
+    form.onsubmit = function(event) {
         event.preventDefault();
         uploadButton.innerHTML = 'Uploading...';
     };
@@ -484,7 +511,7 @@ window.onload = function() {
         };
     }
     if (story_cont.children.length > 1 ||
-            document.getElementById('story_title').textContent) {
+        document.getElementById('story_title').textContent) {
         story_content.style.display = 'block';
     }
     document.getElementById('add_panel').style.display = 'block';
@@ -501,10 +528,10 @@ window.onload = function() {
     document.getElementById('clear_block_a').onclick = clear;
 
 
-var tag_input = document.getElementById('tag_input');
-tag_input.onchange = tags_add;
-var tag_add = document.getElementById('tag_add');
-tag_add.onclick = tags_add;
+    var tag_input = document.getElementById('tag_input');
+    tag_input.onchange = tags_add;
+    var tag_add = document.getElementById('tag_add');
+    tag_add.onclick = tags_add;
 
 
 };
@@ -520,12 +547,17 @@ function tags_add() {
     tag_input.focus();
 }
 
-function tags_view(tags_arr){
+function tags_view(tags_arr) {
+    if (!supportsLocalStorage()) {
+        return false;
+    }
     button_list.innerHTML = '';
     for (var i = 0; i < tags_arr.length; i++) {
-        button_list.innerHTML += '<div class="tags_button">'+tags_arr[i]+
-        ' <span class="tags_delete" onclick="tag_delete('+i+')">x</span></div>'
+        localStorage["tripJournal.tags_arr." + i] = tags_arr[i];
+        button_list.innerHTML += '<div class="tags_button">' + tags_arr[i] +
+            ' <span class="tags_delete" onclick="tag_delete(' + i + ')">x</span></div>'
     }
+    return true;
 }
 
 function tag_delete(i) {
@@ -534,7 +566,7 @@ function tag_delete(i) {
 
 
 function delete_img(id) {
-    if(id) {
+    if (id) {
         var div = document.getElementById(id);
         div.parentNode.removeChild(div);
     }
@@ -551,22 +583,22 @@ function initialize() {
         zoom: 14
     };
     map = new google.maps.Map(
-            document.getElementById('map-canvas'),
-            mapOptions);
+        document.getElementById('map-canvas'),
+        mapOptions);
     google.maps.event.addListener(map, 'click', function(event) {
         placeMarker(event.latLng);
     });
 
     addDrawingManager(map);
 
-    for (var i=0; i < temp_positions.length; i++) {
+    for (var i = 0; i < temp_positions.length; i++) {
         var position = temp_positions[i].position;
         var location = new google.maps.LatLng(position.lat, position.lng);
         var marker = new google.maps.Marker({
             position: location,
             map: map
         });
-        if(BlockMarkers[current_marker] !== null){
+        if (BlockMarkers[current_marker] !== null) {
             removeMark(BlockMarkers[temp_positions[i].block]);
         }
 
@@ -587,20 +619,22 @@ function placeMarker(location, itemstr) {
     var item = parseInt(itemstr);
     if (typeOfMarker === 1) {
         var marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        icon: {url: '../static/images/artifact_marker.png'}
-    });
+            position: location,
+            map: map,
+            icon: {
+                url: '../static/images/artifact_marker.png'
+            }
+        });
     } else {
         var marker = new google.maps.Marker({
-        position: location,
-        map: map
-    });
+            position: location,
+            map: map
+        });
     }
 
 
-    if(current_marker !== -1) {
-        if(BlockMarkers[current_marker] !== null){
+    if (current_marker !== -1) {
+        if (BlockMarkers[current_marker] !== null) {
             removeMark(BlockMarkers[current_marker]);
         }
 
@@ -621,7 +655,9 @@ function setAllMap(map) {
 
 function codeAddress() {
     var address = document.getElementById('address').value;
-    geocoder.geocode( { 'address': address}, function(results, status) {
+    geocoder.geocode({
+        'address': address
+    }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
         } else {
@@ -630,29 +666,29 @@ function codeAddress() {
     });
 }
 
-function setactivemarker(itemstr){
+function setactivemarker(itemstr) {
     typeOfMarker = 0
     var item = parseInt(itemstr);
     current_marker = Blocks.indexOf(item);
 }
 
-function setactivemarkerArtifact(itemstr){
+function setactivemarkerArtifact(itemstr) {
     typeOfMarker = 1;
     var item = parseInt(itemstr);
     current_marker = Blocks.indexOf(item);
 }
 
-function removeBlockMark(itemstr){
+function removeBlockMark(itemstr) {
     var item = parseInt(itemstr);
-    var index = Blocks.indexOf(item);  
+    var index = Blocks.indexOf(item);
     removeMark(BlockMarkers[index]);
     BlockMarkers[index] = null;
 }
 
-function getMarkerLocation(i){
-    if(BlockMarkers[i] !== null){
-        var marker =  markersArray[BlockMarkers[i]];
-        if(marker !== null){
+function getMarkerLocation(i) {
+    if (BlockMarkers[i] !== null) {
+        var marker = markersArray[BlockMarkers[i]];
+        if (marker !== null) {
             var pos = marker.getPosition();
             return {
                 'lat': pos.lat(),
@@ -675,3 +711,8 @@ function removeMark(i) {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+// not all browsers support local storage. First of all we should check
+// if our browser support this function
+function supportsLocalStorage() {
+    return ('localStorage' in window) && window['localStorage'] !== null;
+}
