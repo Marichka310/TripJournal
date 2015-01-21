@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 handler = logging.FileHandler('multiprocessing.log')
 handler.setLevel(logging.INFO)
-# write logs to the file
+# write logs to the file "multiprocessing.log"
 logger.addHandler(handler)
 
 logger.info('Start execution of program')
