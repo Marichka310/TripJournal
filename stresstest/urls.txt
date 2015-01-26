@@ -1,0 +1,8 @@
+http://127.0.0.1:8000/
+http://127.0.0.1:8000/my_stories/
+http://127.0.0.1:8000/pictures_near_by/
+http://127.0.0.1:8000/stories_near_by/
+http://127.0.0.1:8000/story/3
+http://127.0.0.1:8000/edit/3
+http://127.0.0.1:8000/edit/
+http://127.0.0.1:8000/story/3
