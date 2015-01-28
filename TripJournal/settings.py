@@ -115,25 +115,6 @@ IMG_STORAGE = os.path.join(os.path.dirname(BASE_DIR), 'Pictures')
 # place to temporary write image
 TEMP_DIR = '/var/tmp'
 
-# create manifest file that helps to work offline with editor
-OFFLINE_MANIFEST = 'webapp.manifest'
-
-# set resourses that will be loaded offline
-OFFLINE_MANIFEST = {
-    'webapp.manifest': {
-        'cache': (
-            r'edit\.html',
-            r'edit\.css',
-            #r'main\.js',
-            r'edit\.js',
-            #r'webapp/img/.*',
-        ),
-        'exclude': (
-            #r'webapp/img/online-only/.*',
-        )
-    },
-}
-
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.google.GoogleOAuth2',
