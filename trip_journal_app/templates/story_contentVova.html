@@ -38,9 +38,15 @@
             </div>
         </div>
     {% elif story_block.type == 'img' %}
-    <div class="saved img image_story" style="background:#822" {{story_block|coordinates_data}}
-     data-dbId="{{story_block.id}}">
-        <p><img src="{{ story_block.pic|get_stored_pic_by_size:800 }}"></p>
+    <div class="block_story" block_type="img" style="background:#822" {{story_block|coordinates_data}}>
+        <img class="image_story" src="{{ story_block.pic|get_stored_pic_by_size:800 }}" data-dbId="{{story_block.id}}">
+             <div class="key_panel" style="display:none">
+                <button class="top"></button>
+                <button class="bottom"></button>
+                <button class="delete"></button>
+                <button class="addmarker"></button>
+                <button class="removemarker"></button>
+            </div>
     </div>
     {% elif story_block.type == 'artifact' %}
     <div class="saved artifact block_story" {{story_block|coordinates_data}}>
