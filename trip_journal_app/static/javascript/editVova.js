@@ -11,7 +11,8 @@ window.onload=function(){
         textarea_artifact = document.getElementById('textarea_artifact'),
         photo_cont = document.getElementById('photo_cont'),
         plusText=document.getElementById("adds_block_t"),
-        plusPhoto=document.getElementById("adds_block_p"),       
+        plusPhoto=document.getElementById("adds_block_p"),
+        plusArtifact=document.getElementById("adds_block_a"),       
         fileSelect = document.getElementById('type_file');
 //Events
         fileSelect.addEventListener("change", add_img);
@@ -23,6 +24,7 @@ window.onload=function(){
         added_text.addEventListener("click", showTextPanel);
         plusText.addEventListener("click", save_text_story);
         plusPhoto.addEventListener("click", save_photo_story);
+        plusArtifact.addEventListener("click", save_photo_artifact);
 
 //функція вертає з урла браузера story_id
 function storyIdFromUrl(){    
@@ -78,7 +80,6 @@ function clear() {
 
 //зберігає текстовий блок
 function save_text_story(){       
-        story_cont.style.display = 'block';
     var text = escape_html_tags(textarea.value)        
         appendBlock(text, "text");
         clear();
@@ -92,8 +93,11 @@ function escape_html_tags(str) {
 //додає блок заданорго типу ("text","img","artifact")
 function appendBlock(blockContent, block_type){
     var container = document.createElement('div'),
-        keybar = document.createElement('div'),
+        keybar = document.createElement('div'),        
         buttons= ['top','bottom','delete','addmarker','removemarker'];
+        if(block_type=="artifact"){
+           buttons= ['top','bottom','delete','addmarkerArtifact','removemarker']; 
+        }
         container.className = "block_story";
         container.setAttribute("block_type", block_type)
         story_cont.appendChild(container)
@@ -209,11 +213,19 @@ function save_photo_story() {
 
 //робить обгортку над картинками для додавання в блок
 function img_block_template(src, img_id) {     
-    return (
-        '<img src="' + src + '"class="image_story" data-dbid="' +
-        img_id + '">'
-    );
+    return ('<img src="' + src + '"class="image_story" data-dbid="' +img_id + '">');
 }
+
+
+
+function save_photo_artifact(){
+    var artifact=textarea_artifact.value;       
+        appendBlock(escape_html_tags(artifact), "artifact")
+        clear();
+        savePage();          
+}
+
+
 
 
 }
