@@ -36,7 +36,10 @@ main{
     width: 215px;
     height: 25px;
     border: 1px solid #aaa;
-    margin-left:540px;
+    position:absolute;
+    bottom:5px;
+    right:5px;
+    
     display:none;
     
 }
@@ -143,6 +146,7 @@ main{
     margin: 5px;
     text-align: left;
     padding: 10px;
+    padding-bottom: 30px;
     position: relative;
     background: #383
 }
