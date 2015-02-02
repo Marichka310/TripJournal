@@ -27,8 +27,15 @@
 
 {% elif page == 'edit' %}
     {% if story_block.type == 'text' %}
-        <div class="saved text block_story" block_type="text" style="background:#822" {{story_block|coordinates_data}}>
+        <div class="block_story" block_type="text" style="background:#822" {{story_block|coordinates_data}}>
         {{ story_block.content|safe }}
+            <div class="key_panel" style="display:none">
+                <button class="top"></button>
+                <button class="bottom"></button>
+                <button class="delete"></button>
+                <button class="addmarker"></button>
+                <button class="removemarker"></button>
+            </div>
         </div>
     {% elif story_block.type == 'img' %}
     <div class="saved img image_story" style="background:#822" {{story_block|coordinates_data}}
