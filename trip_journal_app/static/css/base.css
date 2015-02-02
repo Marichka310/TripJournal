@@ -1,0 +1,114 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    right: 0;
+    margin: 0;
+    background-color: #31797d;
+    height: 50px;
+    color: white;
+    z-index: 1;
+}
+
+#cite_name {
+    display: inline-block;
+    margin: 8px 0px 0px 8px;
+    border: white solid 2px;
+}
+
+#cite_name p {
+    padding: 4px;
+    margin: 0;
+}
+
+#cite_name p a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.25em;
+}
+
+#cite_name:hover {
+    background-color: white;
+}
+
+#cite_name:hover a {
+    color: #31797d;
+}
+
+#menu {
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    z-index: 2;
+    font-variant: small-caps;
+    font-size: 1.1em;
+}
+
+#menu div {
+    display: inline-block;
+    padding: 8px;
+    border: #31797d solid 2px;
+    border-right: white solid 2px;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+#menu div:last-of-type {
+    border-right:  #31797d solid 2px;
+    padding: 0;
+
+}
+
+#menu div a {
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+#menu div:hover {
+    border: white solid 2px;
+}
+
+#content {
+    position: relative;
+    top: 53px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
+#login_button {
+    margin-top: 13px;
+    margin-right: 50px;
+    float: right;
+}
+
+.info {
+    position: relative;
+    top: 50px;
+    color: #31797d;
+    border: solid #FFEA99;
+    padding: 5px 5px 5px 35px;
+    background: #FFEA99 url('../images/info.svg') no-repeat 5px 2px;
+    background-size: 23px 23px;
+}
+
+#menu div .login_image {
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    padding: 0;
+}

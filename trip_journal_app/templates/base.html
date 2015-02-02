@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load staticfiles %}
+        {% load trip_journal_extras %}
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        {% block css %}
+        <link rel="stylesheet" href="{% static "css/base.css"%}">{% endblock %}
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,300,500,400italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+        {% block scripts %}{% endblock %}
+    </head>
+    <body>
+        <div id="header">
+            {% block header %}
+            <div id='cite_name'>
+                <p><a href={% url 'home' %}>Trip Journal</a></p>
+            </div>
+            {% endblock %}
+        </div>
+        <div id="menu">
+            {% block menu %}
+            <div><a href="{% url 'stories_near_by' %}">stories nearby</a></div>
+            <div><a href="{% url 'pictures_near_by' %}">pictures nearby</a></div>
+            {% if user and not user.is_anonymous %}
+                <div><a href="{% url 'user_stories' %}">my stories</a></div>
+                <div>
+                    <a href="{% url 'auth:logout' %}?next={% url 'home' %}">logout {{ user.username }}</a>
+                </div>
+            {% else %}
+                <div>
+                    sign in:
+                    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request|login_next }}">
+                        <div class='login_image'><img src="{% static "images/Google_Plus_logo.png"%}"></div>
+                    </a>
+                    <a href="{% url 'social:begin' 'facebook' %}?next={{ request|login_next }}">
+                        <div class='login_image'><img src="{% static "images/fb_logo.png"%}"></div>
+                    </a>
+                    <a href="{% url 'social:begin' 'vk-oauth2' %}?next={{ request|login_next }}">
+                        <div class='login_image'><img src="{% static "images/vk_logo.png"%}"></div>
+                    </a>
+                </div>
+            {% endif %}
+            {% endblock %}
+
+        </div>
+        <div id="messages">
+            {% block messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }} {% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endblock %}
+        </div>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
