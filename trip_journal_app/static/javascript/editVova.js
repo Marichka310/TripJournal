@@ -99,7 +99,7 @@ function appendBlock(blockContent, block_type){
            buttons= ['top','bottom','delete','addmarkerArtifact','removemarker']; 
         }
         container.className = "block_story";
-        container.setAttribute("block_type", block_type)
+        container.setAttribute("block_type", block_type) //записуєм тип елемента атрибутом
         story_cont.appendChild(container)
         container.innerHTML =blockContent   
         keybar.className = "key_panel"
@@ -173,7 +173,7 @@ function add_img() {
         if (files.length > 0) {
             for (i = 0; i < files.length; i++) {
                 file = files[i];
-                if (!file.type.match('image.*')) {
+                if (!file.type.match('image.*')) { //вибираєм з файлів тільки картинки 
                     continue;
                 }
                 Images.push(file);
@@ -217,7 +217,7 @@ function img_block_template(src, img_id) {
 }
 
 
-
+//функція додає блок артефакт
 function save_photo_artifact(){
     var artifact=textarea_artifact.value;       
         appendBlock(escape_html_tags(artifact), "artifact")

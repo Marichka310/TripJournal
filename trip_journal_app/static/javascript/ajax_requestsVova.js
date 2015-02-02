@@ -57,6 +57,9 @@ function storyBlocksJsonVova(){
             if (block.type === 'text') {
                 block.content = Blocks[i].childNodes[0].nodeValue;
             }
+            if (block.type === 'artifact') {
+                block.content = Blocks[i].childNodes[0].nodeValue;
+            }
             if (block.type === 'img') {
                 block.id = parseInt(Blocks[i].getElementsByClassName("image_story")[0].getAttribute("data-dbid"));
             }

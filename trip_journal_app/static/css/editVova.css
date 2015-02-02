@@ -227,7 +227,7 @@ main{
     bottom: 0px;
     background:  url("../images/marker.png") no-repeat;
 }
-#addmarkerArtifact{
+.addmarkerArtifact{
     bottom: 0px;
     background:  url("../images/artifact_marker.png") no-repeat;
 }

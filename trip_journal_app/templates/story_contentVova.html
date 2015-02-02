@@ -49,9 +49,16 @@
             </div>
     </div>
     {% elif story_block.type == 'artifact' %}
-    <div class="saved artifact block_story" {{story_block|coordinates_data}}>
+     <div class="block_story" block_type="artifact" style="background:#822" {{story_block|coordinates_data}}>
         {{ story_block.content|safe }}
-    </div>
+            <div class="key_panel" style="display:none">
+                <button class="top"></button>
+                <button class="bottom"></button>
+                <button class="delete"></button>
+                <button class="addmarkerArtifact"></button>
+                <button class="removemarker"></button>
+            </div>
+        </div>
     {% endif %}
     
 {% endif %}
