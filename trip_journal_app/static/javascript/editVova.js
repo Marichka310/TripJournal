@@ -18,7 +18,7 @@ window.onload=function(){
         fileSelect.addEventListener("change", add_img);
         story_cont.addEventListener("mouseover", showKeybar);
         story_cont.addEventListener("mouseout", hideKeybar);
-        story_cont.addEventListener("click", mainClick);
+        story_cont.addEventListener("click", buttonsClick);
         added_artifact.addEventListener("click", showArtifactPanel);
         added_image.addEventListener("click", showImagePanel);
         added_text.addEventListener("click", showTextPanel);
@@ -26,18 +26,14 @@ window.onload=function(){
         plusPhoto.addEventListener("click", save_photo_story);
         plusArtifact.addEventListener("click", save_photo_artifact);
 
-//функція вертає з урла браузера story_id
-function storyIdFromUrl(){    
-    var currUrl = document.URL.split(['/']);
-    return currUrl[currUrl.length - 1];
-}
+//Functions
 
 //показує панель текста
 function showTextPanel(){
     clear()
     this.style.background = '#8ed41f';
     text_panel.style.display = 'block';
-    document.getElementById('textarea').focus();  
+    textarea.focus();  
 }
 
 //показує панель фото
@@ -52,15 +48,15 @@ function showArtifactPanel(){
     clear()
     this.style.background = '#8ed41f';
     artifact_panel.style.display = 'block';
-    document.getElementById('textarea_artifact').focus();
+    textarea_artifact.focus();
 }
 
 //функція вертає всі панелі текста, фото, артефакта в початковий стан
 function clear() {
-        var hidePanels = document.getElementsByClassName('hide');
-            for(var i=0; i<hidePanels.length; i++){
-               hidePanels[i].style.display = 'none'; 
-            }
+    var hidePanels = document.getElementsByClassName('hide');
+        for(var i=0; i<hidePanels.length; i++){
+            hidePanels[i].style.display = 'none'; 
+        }
         added_text.style.background = "#80B098";
         added_image.style.background = "#80B098";
         added_artifact.style.background = "#80B098";
@@ -69,18 +65,6 @@ function clear() {
         photo_cont.innerHTML = '';
         photo_cont.style.display = 'none';
     }
-
-//зберігає текстовий блок
-function save_text_story(){       
-    var text = escape_html_tags(textarea.value)        
-        appendBlock(text, "text");
-        clear();
-        savePage();       
-    }
-
-function escape_html_tags(str) {
-    return str.replace(/>/g, '&gt;').replace(/</g, '&lt;');
-}
 
 //додає блок заданорго типу ("text","img","artifact")
 function appendBlock(blockContent, block_type){
@@ -104,58 +88,24 @@ function appendBlock(blockContent, block_type){
         savePage();    
 }
 
-//функція показуе панель кнопок при наведенні на блок
-function showKeybar(e){
-    var target = e.target;
-        while(target!=this){
-            if(target.className=="block_story"){
-                var key_panel= target.getElementsByClassName("key_panel")[0];
-                    key_panel.style.display="block";                             
-            }
-        target=target.parentNode;    
-        }
-}
-
-//функція ховає панель кнопок при наведенні на блок
-function hideKeybar(e){
-    var target = e.target;
-        while(target!=this){
-            if(target.className=="block_story"){
-                var key_panel= target.getElementsByClassName("key_panel")[0];               
-                    key_panel.style.display="none";
-            }
-        target=target.parentNode;    
-        }
-}
-
-//основна хендлер в якому задаеться яка функція визиваеться при якому кліку
-function mainClick(e){
-    var event = e || window.event;
-    var target = event.target || event.srcElement;
-        while(target.id!="story_content"){
-            if(target.id){               
-                switch(target.id){
-                //    case "added_artifact": alert(indexOfClickedBlock(target)); return;
-                //    case "added_image": alert("red"); return;
-                }
-            }else{
-                switch(target.className){
-                    case "block_story": alert(indexOfClickedBlock(target)); return;                  
-                }
-            }                                  
-            target=target.parentNode;           
-        }           
-}
-
-//функція вертає індекс блока по якому клікнули
-function indexOfClickedBlock(element){
-    while (element.className!="block_story"){
-        element=element.parentNode;
+//зберігає текстовий блок
+function save_text_story(){       
+    var text = escape_html_tags(textarea.value)        
+        appendBlock(text, "text");
+        clear();
+        savePage();       
     }
-    var my=document.getElementsByClassName("block_story")
-        for(var i=0; i<my.length; i++){
-            if(my[i]==element) return i;          
-        } 
+
+function escape_html_tags(str) {
+    return str.replace(/>/g, '&gt;').replace(/</g, '&lt;');
+}
+
+//функція додає блок артефакт
+function save_photo_artifact(){
+    var artifact=textarea_artifact.value;       
+        appendBlock(escape_html_tags(artifact), "artifact")
+        clear();
+        savePage();          
 }
 
 //функція показуе картинку в photo_cont через HTML5 ObjectURL
@@ -192,11 +142,10 @@ function add_img() {
 
 //зберігає  блок з картинками
 function save_photo_story() {       
-        var i,
-            arr = document.getElementsByClassName("img_story"),
-            content = '';
+    var arr = document.getElementsByClassName("img_story"),
+        content = '';
         story_cont.style.display = 'block';
-        for (i = 0; i < arr.length; i++) {
+        for (var i = 0; i < arr.length; i++) {
             content += img_block_template(arr[i].src);
         }
         appendBlock(content, "img");
@@ -208,16 +157,58 @@ function img_block_template(src, img_id) {
     return ('<img src="' + src + '"class="image_story" data-dbid="' +img_id + '">');
 }
 
-
-//функція додає блок артефакт
-function save_photo_artifact(){
-    var artifact=textarea_artifact.value;       
-        appendBlock(escape_html_tags(artifact), "artifact")
-        clear();
-        savePage();          
+//функція показуе панель кнопок при наведенні на блок
+function showKeybar(e){
+    var target = e.target;
+        while(target!=this){
+            if(target.className=="block_story"){
+                var key_panel= target.getElementsByClassName("key_panel")[0];
+                    key_panel.style.display="block";                             
+            }
+        target=target.parentNode;    
+        }
 }
 
+//функція ховає панель кнопок при наведенні на блок
+function hideKeybar(e){
+    var target = e.target;
+        while(target!=this){
+            if(target.className=="block_story"){
+                var key_panel= target.getElementsByClassName("key_panel")[0];               
+                    key_panel.style.display="none";
+            }
+        target=target.parentNode;    
+        }
+}
 
+//основна хендлер в якому задаеться яка функція визиваеться при якому кліку
+function buttonsClick(e){
+    var event = e || window.event;
+    var target = event.target || event.srcElement;
+        while(target.id!="story_content"){
+            if(target.id){               
+                switch(target.id){
+                //    case "added_artifact": alert(indexOfClickedBlock(target)); return;
+                //    case "added_image": alert("red"); return;
+                }
+            }else{
+                switch(target.className){
+                    case "block_story": alert(indexOfClickedBlock(target)); return;                  
+                }
+            }                                  
+            target=target.parentNode;           
+        }           
+}
 
+//функція вертає індекс блока по якому клікнули
+function indexOfClickedBlock(element){
+    while (element.className!="block_story"){
+        element=element.parentNode;
+    }
+    var my=document.getElementsByClassName("block_story")
+        for(var i=0; i<my.length; i++){
+            if(my[i]==element) return i;          
+        } 
+}
 
 }
