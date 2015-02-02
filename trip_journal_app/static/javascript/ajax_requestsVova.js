@@ -70,7 +70,7 @@ function storyBlocksJsonVova(){
 //вертає оастанню картинку щоб записати в атрибут id з бази даних
 function lastPicture(){
     var pictures=document.getElementsByClassName("image_story");
-    var lastPic=pictures[pictures.length-1]
+    var lastPic=pictures[pictures.length-1];
         return lastPic;
 }
 
