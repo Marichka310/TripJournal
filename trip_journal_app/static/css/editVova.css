@@ -142,13 +142,15 @@ main{
 }
 
 .block_story{
-    border: 1px solid #aaa;
-    margin: 5px;
+    border: 2px solid #999;    
     text-align: left;
-    padding: 10px;
+    padding: 12px;
     padding-bottom: 30px;
     position: relative;
-    background: #383
+    background: #383;
+    width:614px;
+    left:50%;
+    margin:10px 0 10px -318px;
 }
 .image_story{
     width: 756px;
