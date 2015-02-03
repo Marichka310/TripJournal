@@ -14,39 +14,8 @@ function storyIdFromUrl() {
     return currUrl[currUrl.length - 1];
 }
 
-function storyBlocksJson() {
-    var i, type, block, blockContent, blockText,
-    title = document.getElementById('story_title').innerHTML,
-    blocks = [];
 
-    for (i = 0; i < Blocks.length; i++) {
-        type = BlockTypes[i];
-        marker = getMarkerLocation(i);
-        htmlBlock = document.getElementById('contentarea_' + (Blocks[i]));
-        block = {
-            'type': type,
-            'marker' : marker
-        };
-        if (type === 'text') {
-            block.content = htmlBlock.children[0].innerHTML;
-        }
-        if (type === 'img') {
-            block.id = parseInt(
-                getInsideElement(htmlBlock, 'tagName', 'IMG').dataset.dbid
-                );
-        }
-        if (type === 'artifact') {
-            block.content = htmlBlock.children[0].innerHTML;
-        }
-        blocks.push(block);
-    }
-    return {
-        'title': title,
-        'blocks': blocks
-    };
-}
-
-function storyBlocksJsonVova(){
+function storyBlocksJson(){
     var blocks=[]
     var Blocks=document.getElementsByClassName("block_story");
         for(var i=0;i<Blocks.length;i++){          
@@ -70,7 +39,8 @@ function storyBlocksJsonVova(){
         'blocks': blocks
     }; 
 }
-//вертає оастанню картинку щоб записати в атрибут id з бази даних
+
+//returns the last picture to add to the id attribute from database
 function lastPicture(){
     var pictures=document.getElementsByClassName("image_story");
     var lastPic=pictures[pictures.length-1];
@@ -110,7 +80,7 @@ function postImages(storyId){
 
 function postData(async){
     var xhr = new XMLHttpRequest(),
-    requestBody = JSON.stringify(storyBlocksJsonVova());
+    requestBody = JSON.stringify(storyBlocksJson());
     /**
      * Appends story id to page url and urls form publsih panel
      * and makes publish panel visble

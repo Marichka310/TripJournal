@@ -1,6 +1,5 @@
- var Images = [] //масив карттинок, що будуть аплоудитись
+ var Images = []; //Array of pictures for upload
 
-//Скріпт ,що буде виконуватись після загрузки DOM
 window.onload=function(){
 //Variables
     var story_cont = document.getElementById('story_content'),       
@@ -27,8 +26,7 @@ window.onload=function(){
         plusArtifact.addEventListener("click", save_photo_artifact);
 
 //Functions
-
-//показує панель текста
+//show panel of text
 function showTextPanel(){
     clear()
     this.style.background = '#8ed41f';
@@ -36,14 +34,14 @@ function showTextPanel(){
     textarea.focus();  
 }
 
-//показує панель фото
+//show panel of image
 function showImagePanel(){
     clear()  
     this.style.background = '#8ed41f';
     photo_panel.style.display = 'block';    
 }
 
-//показує панель артефакта
+//show panel of artifact
 function showArtifactPanel(){
     clear()
     this.style.background = '#8ed41f';
@@ -51,7 +49,7 @@ function showArtifactPanel(){
     textarea_artifact.focus();
 }
 
-//функція вертає всі панелі текста, фото, артефакта в початковий стан
+//function returns all panels of text, images, artifacts in default condition 
 function clear() {
     var hidePanels = document.getElementsByClassName('hide');
         for(var i=0; i<hidePanels.length; i++){
@@ -66,7 +64,7 @@ function clear() {
         photo_cont.style.display = 'none';
     }
 
-//додає блок заданорго типу ("text","img","artifact")
+//function adds a block of a given type ("text","img","artifact")
 function appendBlock(blockContent, block_type){
     var container = document.createElement('div'),
         keybar = document.createElement('div'),        
@@ -75,7 +73,7 @@ function appendBlock(blockContent, block_type){
            buttons= ['top','bottom','delete','addmarkerArtifact','removemarker']; 
         }
         container.className = "block_story";
-        container.setAttribute("block_type", block_type) //записуєм тип елемента атрибутом
+        container.setAttribute("block_type", block_type) //write type as an attribute of the element
         story_cont.appendChild(container)
         container.innerHTML =blockContent   
         keybar.className = "key_panel"
@@ -88,7 +86,7 @@ function appendBlock(blockContent, block_type){
         savePage();    
 }
 
-//зберігає текстовий блок
+//save text block
 function save_text_story(){       
     var text = escape_html_tags(textarea.value)        
         appendBlock(text, "text");
@@ -100,7 +98,7 @@ function escape_html_tags(str) {
     return str.replace(/>/g, '&gt;').replace(/</g, '&lt;');
 }
 
-//функція додає блок артефакт
+//save artifact block
 function save_photo_artifact(){
     var artifact=textarea_artifact.value;       
         appendBlock(escape_html_tags(artifact), "artifact")
@@ -108,14 +106,14 @@ function save_photo_artifact(){
         savePage();          
 }
 
-//функція показуе картинку в photo_cont через HTML5 ObjectURL
+//function show the image in photo_cont using HTML5 ObjectURL
 function add_img() {       
         var i, URL, imageUrl, id, file,
             files = fileSelect.files;
         if (files.length > 0) {
             for (i = 0; i < files.length; i++) {
                 file = files[i];
-                if (!file.type.match('image.*')) { //вибираєм з файлів тільки картинки 
+                if (!file.type.match('image.*')) { //Select from files only pictures 
                     continue;
                 }
                 Images.push(file);
@@ -140,7 +138,7 @@ function add_img() {
         }
     }
 
-//зберігає  блок з картинками
+//save photo block
 function save_photo_story() {       
     var arr = document.getElementsByClassName("img_story"),
         content = '';
@@ -152,12 +150,12 @@ function save_photo_story() {
         clear();
     }
 
-//робить обгортку над картинками для додавання в блок
+//Creates wrap over images to add to the block
 function img_block_template(src, img_id) {     
     return ('<img src="' + src + '"class="image_story" data-dbid="' +img_id + '">');
 }
 
-//функція показуе панель кнопок при наведенні на блок
+//function shows buttons when the mouse pointer moves over the "block_story"
 function showKeybar(e){
     var target = e.target;
         while(target!=this){
@@ -169,7 +167,7 @@ function showKeybar(e){
         }
 }
 
-//функція ховає панель кнопок при наведенні на блок
+//function hides buttons when the mouse pointer leaves the "block_story"
 function hideKeybar(e){
     var target = e.target;
         while(target!=this){
@@ -181,7 +179,7 @@ function hideKeybar(e){
         }
 }
 
-//основна хендлер в якому задаеться яка функція визиваеться при якому кліку
+//the main function that defines the function for each button
 function buttonsClick(e){
     var event = e || window.event;
     var target = event.target || event.srcElement;
@@ -200,7 +198,7 @@ function buttonsClick(e){
         }           
 }
 
-//функція вертає індекс блока по якому клікнули
+//function returns the index of the clicked block
 function indexOfClickedBlock(element){
     while (element.className!="block_story"){
         element=element.parentNode;

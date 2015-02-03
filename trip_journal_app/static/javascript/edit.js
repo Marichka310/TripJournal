@@ -351,6 +351,7 @@ window.onload = function() {
     function clear() {
         var arr_1 = document.getElementsByClassName('add_block'),
             arr_2 = document.getElementsByClassName('hide'),
+            arr_3 = document.getElementsByClassName('clear_cont'),
             i;
 
         for (i = 0; i < arr_1.length; i++) {
