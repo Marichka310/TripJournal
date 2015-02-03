@@ -181,19 +181,13 @@ function hideKeybar(e){
 
 //the main function that defines the function for each button
 function buttonsClick(e){
-    var event = e || window.event;
-    var target = event.target || event.srcElement;
+    var target = e.target;
         while(target.id!="story_content"){
-            if(target.id){               
-                switch(target.id){
-                //    case "added_artifact": alert(indexOfClickedBlock(target)); return;
-                //    case "added_image": alert("red"); return;
-                }
-            }else{
                 switch(target.className){
-                    case "block_story": alert(indexOfClickedBlock(target)); return;                  
-                }
-            }                                  
+                    case "top": alert(indexOfClickedBlock(target)+"top"); return;
+                    case "bottom": alert(indexOfClickedBlock(target)+"bottom"); return;
+                    case "delete": alert(indexOfClickedBlock(target)+"delete"); return;                  
+                }                                             
             target=target.parentNode;           
         }           
 }
