@@ -105,11 +105,11 @@ def edit(request, story_id):
 
 @login_required
 @ensure_csrf_cookie
-def editVova(request, story_id):
+def editRef(request, story_id):
     '''
     Edit page view.
     '''
-    return story_contents(request, story_id, 'editVova.html', check_user=True)
+    return story_contents(request, story_id, 'editRef.html', check_user=True)
 
 
 @login_required
