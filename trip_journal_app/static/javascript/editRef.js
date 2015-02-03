@@ -184,9 +184,11 @@ function buttonsClick(e){
     var target = e.target;
         while(target.id!="story_content"){
                 switch(target.className){
-                    case "top": alert(indexOfClickedBlock(target)+"top"); return;
-                    case "bottom": alert(indexOfClickedBlock(target)+"bottom"); return;
-                    case "delete": alert(indexOfClickedBlock(target)+"delete"); return;                  
+                    case "top": moveBlockUp(target); return;
+                    case "bottom": moveBlockDown(target); return;
+                    case "delete": deleteBlock(target); return;
+                    case "addmarker": alert("addmarker"); return;
+                    case "removemarker": alert("removemarker"); return;                   
                 }                                             
             target=target.parentNode;           
         }           
@@ -203,4 +205,31 @@ function indexOfClickedBlock(element){
         } 
 }
 
+//move block up
+function moveBlockUp(element){
+    var index=indexOfClickedBlock(element),
+        bloks=story_cont.getElementsByClassName("block_story"),
+        block=bloks[index];
+        story_cont.insertBefore(bloks[index].cloneNode(true), bloks[index-1]);
+        story_cont.removeChild(block);
+        savePage();
+}
+
+//move block down
+function moveBlockDown(element){
+    var index=indexOfClickedBlock(element),
+        bloks=story_cont.getElementsByClassName("block_story"),
+        block=bloks[index];
+        story_cont.insertBefore(bloks[index].cloneNode(true), bloks[index+2]);
+        story_cont.removeChild(block);
+        savePage();
+}
+
+//delete block
+function deleteBlock(element){
+    var index=indexOfClickedBlock(element);
+        block=story_cont.getElementsByClassName("block_story")[index];
+        story_cont.removeChild(block);
+        savePage();
+}
 }
