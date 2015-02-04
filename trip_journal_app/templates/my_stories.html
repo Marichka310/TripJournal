@@ -9,6 +9,10 @@
 {% block content %}
     <h3>Your stories:</h3>
     <p id="new_story_link"><a href="{% url "edit" '' %}">Create new story</a></p>
+<<<<<<< HEAD
+=======
+    <p id="new_story_link"><a href="{% url "editRef" '' %}">REF edit</a></p>
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
 
     <div id="stories">
         {% for story in stories %}

@@ -90,7 +90,11 @@ function appendBlock(story, blockContent, block_type, saved) {
     Blocks.push(number);
     BlockMarkers.push(null);
     BlockTypes.push(block_type);
+<<<<<<< HEAD
     if (block_type == 'img') {
+=======
+	if (block_type == 'img') {
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
         addImagesFromTemp(number);
     }
     
@@ -147,7 +151,11 @@ function create_button(button_name_and_func) {
     Blocks.push(number);
     BlockMarkers.push(null);
     BlockTypes.push(block_type);
+<<<<<<< HEAD
     if (block_type === 'img') {
+=======
+	if (block_type === 'img') {
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
         addImagesFromTemp(number);
     }
 
@@ -214,7 +222,11 @@ function move_block(itemstr, direction) {
     if ((poss + direction) in Blocks) {
         var blockprev = document.getElementById('contentarea_' + (Blocks[poss + direction])),
             prevconen = blockprev.innerHTML,
+<<<<<<< HEAD
         block_marker = BlockMarkers[poss],
+=======
+	    block_marker = BlockMarkers[poss],
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
             block_type = BlockTypes[poss];
         blockprev.innerHTML = block.innerHTML;
         block.innerHTML = prevconen;
@@ -292,13 +304,21 @@ function add_saved_blocks() {
             appendBlockArtifact(story_content, block_text, block_type, saved = true);
         }
         if (block.dataset.hasOwnProperty('lat')) {
+<<<<<<< HEAD
             marker = {
+=======
+	        marker = {
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
                 'lat': block.dataset.lat,
                 'lng': block.dataset.lng
             };
         }
 
+<<<<<<< HEAD
     appendBlockMarker(marker);
+=======
+	appendBlockMarker(marker);
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
     }
 }
 
@@ -335,6 +355,7 @@ window.onload = function() {
 
 
     function clearImagesFromTemp() {
+<<<<<<< HEAD
         var poss = 0;
         while (true) {
             if (poss == Images.length) {
@@ -346,6 +367,19 @@ window.onload = function() {
             }
         poss++;
         }
+=======
+	    var poss = 0;
+	    while (true) {
+	        if (poss == Images.length) {
+		    break;
+	        }
+	        if (Images[poss].state === 'temp') {
+		        Images.splice(poss, 1);
+		        continue;
+	        }
+	    poss++;
+	    }
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
     }
 
     function clear() {
@@ -396,7 +430,11 @@ window.onload = function() {
         }
     };
 
+<<<<<<< HEAD
     function save_photo_story() {
+=======
+    function save_photo_story(){           
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
         var i,
             arr = document.getElementsByClassName(number),
             content = '';
@@ -406,7 +444,36 @@ window.onload = function() {
         }
         appendBlock(story_cont, content, "img");
         clear();
+<<<<<<< HEAD
     }
+=======
+        
+        $('#type_file').fileExif(setMarkerFromImageExifData);
+    }
+    // put marker if image has GPS coordinates in Exif data
+    function setMarkerFromImageExifData(exifData){           
+          if(exifData.GPSLatitude && exifData.GPSLongitude){
+              var lat=ConvertDMSToDD(exifData.GPSLatitude);
+              var lng=ConvertDMSToDD(exifData.GPSLongitude);                      
+              var myLatlng = new google.maps.LatLng(lat, lng);
+              var countBlock=document.getElementsByClassName("block_story").length                     
+              setactivemarker(countBlock);
+              placeMarker(myLatlng, countBlock);
+              map.setCenter(myLatlng);
+            }
+        }
+    //convert from degrees, minutes, seconds to decimal degrees coordinates
+      function ConvertDMSToDD(dms){
+        var dmsArray=dms.toString().split(",");
+        var degrees=+dmsArray[0];
+        var minutes=+dmsArray[1];
+        var seconds=+dmsArray[2];
+        var dd = degrees + minutes/60 + seconds/(60*60);
+        return dd;   
+      }
+
+
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
 
     function add_img() {
         var i, URL, imageUrl, id, file, imageData,
@@ -443,7 +510,11 @@ window.onload = function() {
         }
     };
 
+<<<<<<< HEAD
     form.onsubmit = function(event) {
+=======
+	form.onsubmit = function(event) {
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
         event.preventDefault();
         uploadButton.innerHTML = 'Uploading...';
     };
@@ -673,4 +744,9 @@ function removeMark(i) {
     savePage();
 }
 
+<<<<<<< HEAD
 google.maps.event.addDomListener(window, 'load', initialize);
+=======
+google.maps.event.addDomListener(window, 'load', initialize);
+
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae

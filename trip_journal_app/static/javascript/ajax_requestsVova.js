@@ -14,66 +14,61 @@ function storyIdFromUrl() {
     return currUrl[currUrl.length - 1];
 }
 
-function storyBlocksJson() {
-    var i, type, block, blockContent, blockText,
-    title = document.getElementById('story_title').innerHTML,
-    blocks = [];
 
-    for (i = 0; i < Blocks.length; i++) {
-        type = BlockTypes[i];
-        marker = getMarkerLocation(i);
-        htmlBlock = document.getElementById('contentarea_' + (Blocks[i]));
-        block = {
-            'type': type,
-            'marker' : marker
-        };
-        if (type === 'text') {
-            block.content = htmlBlock.children[0].innerHTML;
+function storyBlocksJson(){
+    var blocks=[]
+    var Blocks=document.getElementsByClassName("block_story");
+        for(var i=0;i<Blocks.length;i++){          
+        var block={
+                "type":Blocks[i].getAttribute("block_type"),
+                "marker":null
+            };
+            if (block.type === 'text') {
+                block.content = Blocks[i].childNodes[0].nodeValue;
+            }
+            if (block.type === 'artifact') {
+                block.content = Blocks[i].childNodes[0].nodeValue;
+            }
+            if (block.type === 'img') {
+                block.id = parseInt(Blocks[i].getElementsByClassName("image_story")[0].getAttribute("data-dbid"));
+            }
+        blocks.push(block)    
         }
-        if (type === 'img') {
-            block.id = parseInt(
-                getInsideElement(htmlBlock, 'tagName', 'IMG').dataset.dbid
-                );
-        }
-        if (type === 'artifact') {
-            block.content = htmlBlock.children[0].innerHTML;
-        }
-        blocks.push(block);
-    }
-    return {
-        'title': title,
+       return {
+        'title': "Some Story",
         'blocks': blocks
-    };
+    }; 
+}
+
+//returns the last picture to add to the id attribute from database
+function lastPicture(){
+    var pictures=document.getElementsByClassName("image_story");
+    var lastPic=pictures[pictures.length-1];
+        return lastPic;
 }
 
 function postImages(storyId){
-    var i, formData, xhr, imgBlockIndex, img,
-    numberOfImg = Images.length;
-
+    var i, formData, xhr, img, pic;
+        pic=lastPicture(); 
     /**
      * Sets hidden element with
      * picture id from database when picture is saved.
      */
-    function addImageIdFromDB(blockNum) {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var imgElement = getInsideElement(
-                    document.getElementById(
-                        'contentarea_' + blockNum.toString()
-                        ), 'tagName', 'IMG'
-                    );
-            picIdInDB = parseInt(xhr.responseText);
-            imgElement.dataset.dbid = picIdInDB;
+    function addImageIdFromDB(){
+        if (xhr.readyState === 4 && xhr.status === 200) {           
+            picIdInDB = parseInt(xhr.responseText);                        
+            pic.setAttribute("data-dbid", picIdInDB);
             postData(true);
         } 
     }
-    for (i=0; i < numberOfImg; ++i){
+    console.log(Images)
+    for (i=0; i < Images.length; ++i){
         formData = new FormData();
         img = Images.shift();
-        formData.append('file', img.image);
-        xhr = new XMLHttpRequest();
-        imgBlockIndex = img.block;
+        formData.append('file', img);
+        xhr = new XMLHttpRequest();       
         xhr.onreadystatechange = function() {
-            addImageIdFromDB(imgBlockIndex);
+            addImageIdFromDB();
         };
         xhr.open('POST', '/upload/' + storyIdFromUrl());
         xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
@@ -83,39 +78,24 @@ function postImages(storyId){
 }
 
 
-<<<<<<< HEAD
-
 function postData(async){
     var xhr = new XMLHttpRequest(),
     requestBody = JSON.stringify(storyBlocksJson());
-
-=======
-/////////////////////////////need
-function postData(async){
-    var xhr = new XMLHttpRequest(),
-    requestBody = JSON.stringify(storyBlocksJson());
->>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
     /**
      * Appends story id to page url and urls form publsih panel
      * and makes publish panel visble
      * if request was sent from /edit/ page.
      */
-    function addStoryIdToUrls() {
+    function addStoryIdToUrls(){
         if (xhr.readyState === 4 && xhr.status === 200) {
             var newId = xhr.responseText;
             if (!document.URL.endsWith(newId)) {
                 window.history.pushState(
-                        'new_id', 'Title', '/edit/' + newId
+                        'new_id', 'Title', '/editVova/' + newId
                         );
-                var publish_panel = document.getElementById('publish_panel');
-                publish_panel.className = 'block';
-                publish_panel.style.display = 'block';
-                document.getElementById('publish_form').action = '/publish/' + newId;
-                document.getElementById('view_form').action = '/story/' + newId;
             }
         }
     }
-
     xhr.onreadystatechange = addStoryIdToUrls;
     xhr.open('POST', '/save/' + storyIdFromUrl(), async);
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
@@ -123,11 +103,7 @@ function postData(async){
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.send(requestBody);
 }
-<<<<<<< HEAD
 
-=======
-///////////////////////////////////////////
->>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
 
 function savePage() {
     if (storyIdFromUrl().length === 0) postData(false);
@@ -192,3 +168,18 @@ function deleteStoryTags(i) {
     xhr.setRequestHeader('X_REQUESTED_WITH', 'XMLHttpRequest');
     xhr.send();
 }
+
+function getId() {
+    var xhr = new XMLHttpRequest();
+    
+         xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            getStoryTags();
+        }
+    }
+    params = 'Story_id=' + encodeURIComponent(story_id) + '&Tag_position=' + i;
+    xhr.open('GET', '/delete_story_tag/?'+params, true);
+    xhr.setRequestHeader('X_REQUESTED_WITH', 'XMLHttpRequest');
+    xhr.send();
+}
+

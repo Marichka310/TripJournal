@@ -46,6 +46,16 @@ def save(request, story_id):
         story.text = json.dumps(request_body['blocks'], ensure_ascii=False)
         story.date_publish = datetime.datetime.now()
         story.save()
+<<<<<<< HEAD
+=======
+        for block in request_body['blocks']:
+            if block["type"]=="img":
+                if block["marker"]!=None:                
+                    picture=Picture.objects.get(id=block["id"])
+                    picture.latitude=block["marker"]["lat"]
+                    picture.longitude=block["marker"]["lng"]
+                    picture.save()
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
         return HttpResponse(story.id)
 
 
@@ -96,6 +106,17 @@ def edit(request, story_id):
     '''
     return story_contents(request, story_id, 'edit.html', check_user=True)
 
+<<<<<<< HEAD
+=======
+@login_required
+@ensure_csrf_cookie
+def editRef(request, story_id):
+    '''
+    Edit page view.
+    '''
+    return story_contents(request, story_id, 'editRef.html', check_user=True)
+
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
 
 @login_required
 def user_stories(request):

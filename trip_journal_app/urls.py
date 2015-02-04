@@ -6,6 +6,10 @@ from trip_journal_app import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^edit/(?P<story_id>\d*)$', views.edit, name='edit'),
+<<<<<<< HEAD
+=======
+    url(r'^editRef/(?P<story_id>\d*)$', views.editRef, name='editRef'),
+>>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
     # saving contents of story
     url(r'^save/(?P<story_id>\d*)$', views.save, name='save'),
     # image uploads
