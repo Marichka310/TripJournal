@@ -49,7 +49,7 @@ function showArtifactPanel(){
     textarea_artifact.focus();
 }
 
-//function returns all panels of text, images, artifacts in default condition; 
+//function returns all panels of text, images, artifacts in default condition 
 function clear() {
     var hidePanels = document.getElementsByClassName('hide');
         for(var i=0; i<hidePanels.length; i++){
