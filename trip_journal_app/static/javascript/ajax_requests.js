@@ -63,8 +63,9 @@ function postImages(storyId){
                     );
             picIdInDB = parseInt(xhr.responseText);
             imgElement.dataset.dbid = picIdInDB;
+            console.log("test")
             postData(true);
-        } 
+        }
     }
     for (i=0; i < numberOfImg; ++i){
         formData = new FormData();
@@ -73,13 +74,15 @@ function postImages(storyId){
         xhr = new XMLHttpRequest();
         imgBlockIndex = img.block;
         xhr.onreadystatechange = function() {
-            addImageIdFromDB(imgBlockIndex);
+            console.log("onr");
+            var a = addImageIdFromDB(imgBlockIndex);
         };
         xhr.open('POST', '/upload/' + storyIdFromUrl());
         xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
         xhr.setRequestHeader('X_REQUESTED_WITH', 'XMLHttpRequest');
         xhr.send(formData);
     }
+    
 }
 
 
