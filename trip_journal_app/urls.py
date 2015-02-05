@@ -6,10 +6,8 @@ from trip_journal_app import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^edit/(?P<story_id>\d*)$', views.edit, name='edit'),
-<<<<<<< HEAD
-=======
     url(r'^editRef/(?P<story_id>\d*)$', views.editRef, name='editRef'),
->>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
+
     # saving contents of story
     url(r'^save/(?P<story_id>\d*)$', views.save, name='save'),
     # image uploads
@@ -43,7 +41,6 @@ urlpatterns = [
     url(r'^put_tag/$', views.put_tag, name='put_tag'),
     # delete tag in DB
     url(r'^delete_story_tag/$', views.delete_story_tag, name='delete_tag'),
-    url(r'^authorization_page/', views.show_authorization_page, 
+    url(r'^authorization_page/', views.show_authorization_page,
         name='show_authorization_page'),
 ]
-

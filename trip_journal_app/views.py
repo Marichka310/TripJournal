@@ -10,11 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sessions.backends.db import SessionStore
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.views.decorators.http import require_POST
-
 from trip_journal_app.models import Story, Picture, Tag, Map_artifact
-
 from trip_journal_app.forms import UploadFileForm
 from trip_journal_app.utils.story_utils import story_contents
+
 
 def home(request):
     """
@@ -46,17 +45,6 @@ def save(request, story_id):
         story.text = json.dumps(request_body['blocks'], ensure_ascii=False)
         story.date_publish = datetime.datetime.now()
         story.save()
-<<<<<<< HEAD
-=======
-        for block in request_body['blocks']:
-            if block["type"]=="img":
-                if block["marker"]!=None:                
-                    picture=Picture.objects.get(id=block["id"])
-                    picture.latitude=block["marker"]["lat"]
-                    picture.longitude=block["marker"]["lng"]
-                    picture.save()
->>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
-        return HttpResponse(story.id)
 
 
 @login_required
@@ -93,10 +81,11 @@ def upload_img(request, story_id):
 
 def story(request, story_id):
     if story_id:
-        return story_contents(request, story_id, 'story.html', 
-                                check_published=True)
+        return story_contents(request, story_id, 'story.html',
+                              check_published=True)
     else:
         return redirect('/')
+
 
 @login_required
 @ensure_csrf_cookie
@@ -106,8 +95,7 @@ def edit(request, story_id):
     '''
     return story_contents(request, story_id, 'edit.html', check_user=True)
 
-<<<<<<< HEAD
-=======
+
 @login_required
 @ensure_csrf_cookie
 def editRef(request, story_id):
@@ -116,7 +104,6 @@ def editRef(request, story_id):
     '''
     return story_contents(request, story_id, 'editRef.html', check_user=True)
 
->>>>>>> 16de6ff2177bee1118d5132ef7497e2f262771ae
 
 @login_required
 def user_stories(request):
@@ -150,13 +137,14 @@ def search_items_near_by(request):
         x = float(request.GET.get('latitude', ''))
         y = float(request.GET.get('longitude', ''))
         sess = SessionStore()
-        if request.GET.get('item_type','') == u'pictures':
+        if request.GET.get('item_type', '') == u'pictures':
             sess['items_list'] = {'item_type': 'pictures',
-                                'items': Picture.get_sorted_picture_list(x, y)}
+                                  'items': Picture.get_sorted_picture_list(x,
+                                                                           y)}
             sess.save()
-        elif request.GET.get('item_type','') == u'stories':
+        elif request.GET.get('item_type', '') == u'stories':
             sess['items_list'] = {'item_type': 'stories',
-                                'items': Story.get_sorted_stories_list(x, y)}
+                                  'items': Story.get_sorted_stories_list(x, y)}
             sess.save()
         response = redirect('/pagination/')
         response.set_cookie('pagination', sess.session_key)
@@ -166,7 +154,7 @@ def search_items_near_by(request):
 def make_paging_for_items_search(request):
     sess_key = request.COOKIES['pagination']
     sess = SessionStore(session_key=sess_key)
-    list_of_items = sess['items_list']  
+    list_of_items = sess['items_list']
     if list_of_items['item_type'] == 'pictures':
         if not list_of_items['items']:
             messages.info(request, 'No items found')
@@ -189,7 +177,7 @@ def make_paging_for_items_search(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         items = paginator.page(paginator.num_pages)
     return render(request, 'items_near_by.html', {'items_list': items,
-                'item_type': list_of_items['item_type']})
+                  'item_type': list_of_items['item_type']})
 
 
 @login_required
